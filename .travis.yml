@@ -1,0 +1,19 @@
+language: R
+sudo: false
+cache: packages
+warnings_are_errors: true
+env:
+  - _R_CHECK_FORCE_SUGGESTS_=true
+compiler:
+  - gcc-6
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-6
+    - g++-6
+before_install:
+  - echo "options(repos = c(CRAN = 'https://cran.rstudio.com'))" > ~/.Rprofile
+  - mkdir ~/.R
+  - echo "CXX1X=g++-6" > ~/.R/Makevars

@@ -1,0 +1,16 @@
+paper
+INSPIRATIONS
+^\.Rproj\.user$
+.Rproj.user
+.Rhistory
+^\.travis\.yml$
+.dir-locals.el
+^.*\.Rproj$
+TAGS
+^test.R$
+^tmp.R$
+CRAN_notes.md
+announcement.md
+revdep/
+^codecov\.yml$
+tmp/

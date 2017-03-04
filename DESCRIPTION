@@ -1,0 +1,32 @@
+Package: simdist
+Title: High performance distance and similarity functions
+Version: 0.0.1
+Authors@R: person("Vitalie", "Spinu", email = "spinuvit@gmail.com", role = c("aut", "cre"))
+Description: Relaxed word mover distance.
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.1.0),
+    methods,
+    fastmatch
+Imports:
+    Matrix (>= 1.1),
+    Rcpp (>= 0.11),
+    RcppParallel (>= 4.3.14),
+SystemRequirements: GNU make
+Suggests:
+    testthat,
+    proxy,
+    rmarkdown
+LinkingTo: Rcpp,
+    RcppParallel,
+RoxygenNote: 5.0.1
+Collate:
+    'RcppExports.R'
+    'S4utils.R'
+    'utils.R'
+    'transform.R'
+    'core.R'
+    'distances.R'
+    'similarities.R'
