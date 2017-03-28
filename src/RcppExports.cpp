@@ -69,8 +69,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // C_sparse_aggr_dist
-NumericMatrix C_sparse_aggr_dist(const std::string& aggr_type, const std::string& dist_type, NumericMatrix& vecs, IntegerVector& XIX, IntegerVector& XP, NumericVector& XV, IntegerVector& YIX, IntegerVector& YP, NumericVector& YV, const size_t out_rows, const size_t out_cols, const bool self, const bool precompute);
-RcppExport SEXP simdist_C_sparse_aggr_dist(SEXP aggr_typeSEXP, SEXP dist_typeSEXP, SEXP vecsSEXP, SEXP XIXSEXP, SEXP XPSEXP, SEXP XVSEXP, SEXP YIXSEXP, SEXP YPSEXP, SEXP YVSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP selfSEXP, SEXP precomputeSEXP) {
+NumericMatrix C_sparse_aggr_dist(const std::string& aggr_type, const std::string& dist_type, NumericMatrix& vecs, IntegerVector& XIX, IntegerVector& XP, NumericVector& XV, IntegerVector& YIX, IntegerVector& YP, NumericVector& YV, const size_t out_rows, const size_t out_cols, const bool pairwise, const bool self, const bool precompute);
+RcppExport SEXP simdist_C_sparse_aggr_dist(SEXP aggr_typeSEXP, SEXP dist_typeSEXP, SEXP vecsSEXP, SEXP XIXSEXP, SEXP XPSEXP, SEXP XVSEXP, SEXP YIXSEXP, SEXP YPSEXP, SEXP YVSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP pairwiseSEXP, SEXP selfSEXP, SEXP precomputeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -85,15 +85,16 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector& >::type YV(YVSEXP);
     Rcpp::traits::input_parameter< const size_t >::type out_rows(out_rowsSEXP);
     Rcpp::traits::input_parameter< const size_t >::type out_cols(out_colsSEXP);
+    Rcpp::traits::input_parameter< const bool >::type pairwise(pairwiseSEXP);
     Rcpp::traits::input_parameter< const bool >::type self(selfSEXP);
     Rcpp::traits::input_parameter< const bool >::type precompute(precomputeSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_sparse_aggr_dist(aggr_type, dist_type, vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, self, precompute));
+    rcpp_result_gen = Rcpp::wrap(C_sparse_aggr_dist(aggr_type, dist_type, vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, pairwise, self, precompute));
     return rcpp_result_gen;
 END_RCPP
 }
 // C_triplet_aggr_dist
-NumericMatrix C_triplet_aggr_dist(const std::string& aggr_type, const std::string& dist_type, NumericMatrix& vecs, IntegerVector& xpri, IntegerVector& xsec, NumericVector& xval, IntegerVector& ypri, IntegerVector& ysec, NumericVector& yval, const size_t out_rows, const size_t out_cols, const bool self, const bool precompute);
-RcppExport SEXP simdist_C_triplet_aggr_dist(SEXP aggr_typeSEXP, SEXP dist_typeSEXP, SEXP vecsSEXP, SEXP xpriSEXP, SEXP xsecSEXP, SEXP xvalSEXP, SEXP ypriSEXP, SEXP ysecSEXP, SEXP yvalSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP selfSEXP, SEXP precomputeSEXP) {
+NumericMatrix C_triplet_aggr_dist(const std::string& aggr_type, const std::string& dist_type, NumericMatrix& vecs, IntegerVector& xpri, IntegerVector& xsec, NumericVector& xval, IntegerVector& ypri, IntegerVector& ysec, NumericVector& yval, const size_t out_rows, const size_t out_cols, const bool pairwise, const bool self, const bool precompute);
+RcppExport SEXP simdist_C_triplet_aggr_dist(SEXP aggr_typeSEXP, SEXP dist_typeSEXP, SEXP vecsSEXP, SEXP xpriSEXP, SEXP xsecSEXP, SEXP xvalSEXP, SEXP ypriSEXP, SEXP ysecSEXP, SEXP yvalSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP pairwiseSEXP, SEXP selfSEXP, SEXP precomputeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -108,9 +109,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector& >::type yval(yvalSEXP);
     Rcpp::traits::input_parameter< const size_t >::type out_rows(out_rowsSEXP);
     Rcpp::traits::input_parameter< const size_t >::type out_cols(out_colsSEXP);
+    Rcpp::traits::input_parameter< const bool >::type pairwise(pairwiseSEXP);
     Rcpp::traits::input_parameter< const bool >::type self(selfSEXP);
     Rcpp::traits::input_parameter< const bool >::type precompute(precomputeSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_triplet_aggr_dist(aggr_type, dist_type, vecs, xpri, xsec, xval, ypri, ysec, yval, out_rows, out_cols, self, precompute));
+    rcpp_result_gen = Rcpp::wrap(C_triplet_aggr_dist(aggr_type, dist_type, vecs, xpri, xsec, xval, ypri, ysec, yval, out_rows, out_cols, pairwise, self, precompute));
     return rcpp_result_gen;
 END_RCPP
 }

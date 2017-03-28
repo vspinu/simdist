@@ -1,3 +1,5 @@
+// -*- mode: c++ -*-
+
 #ifndef DISTANCE_WORKERS_AGGR_HPP__
 #define DISTANCE_WORKERS_AGGR_HPP__
 
@@ -16,6 +18,7 @@ struct SparseAggrBaseWorker : public RcppParallel::Worker {
   
   const Dist<DT> dist {};
   const bool self;
+  const bool pairwise;
 
   IntegerVector XIX0;
   RVector<int> XIX;
@@ -39,36 +42,44 @@ struct SparseAggrBaseWorker : public RcppParallel::Worker {
                                 const IntegerVector& YP,
                                 const NumericVector& YV,
                                 NumericMatrix& outmat,
+                                bool pairwise = false, 
                                 bool self = false)
     : vecs0(vecs), vecs(vecs), 
       XIX(XIX), XIX0(XIX), XP(XP), XV(XV),
       YIX(YIX), YIX0(YIX), YP(YP), YV(YV), 
-      outmat(outmat), self(self) { }
+      outmat(outmat), pairwise(pairwise), self(self) { }
 
   void operator()(std::size_t xjbeg, std::size_t xjend) {
-
-    for (size_t xj = xjbeg; xj < xjend; xj++) {
-
-      size_t yjend = this->self ? xj : this->outmat.ncol();
-
-      for (std::size_t yj = 0; yj < yjend; yj++) {
-        int xbeg = this->XP[xj], xend = this->XP[xj + 1];
-        int ybeg = this->YP[yj], yend = this->YP[yj + 1];
-
-
-        if (xbeg == xend || ybeg == yend)  {
-
-          this->outmat(xj, yj) = std::numeric_limits<double>::quiet_NaN();
-
-        } else {
-
-          this->outmat(xj, yj) = computeOne(xj, xbeg, xend, yj, ybeg, yend);        
+    if (pairwise)
+      {
+        for (std::size_t j = xjbeg; j < xjend; j++) {
+          int xbeg = this->XP[j], xend = this->XP[j + 1];
+          int ybeg = this->YP[j], yend = this->YP[j + 1];
+          if (xbeg == xend || ybeg == yend) {
+            this->outmat(j, 0) = std::numeric_limits<double>::quiet_NaN();
+          } else {
+            this->outmat(j, 0) = computeOne(j, xbeg, xend, j, ybeg, yend);        
+          }
         }
-
-        if (self)
-          this->outmat(yj, xj) = this->outmat(xj, yj);
       }
-    }
+    else
+      {
+        for (size_t xj = xjbeg; xj < xjend; xj++) {
+          size_t yjend = this->self ? xj : this->outmat.ncol();
+          for (std::size_t yj = 0; yj < yjend; yj++) {
+            int xbeg = this->XP[xj], xend = this->XP[xj + 1];
+            int ybeg = this->YP[yj], yend = this->YP[yj + 1];
+            if (xbeg == xend || ybeg == yend)  {
+              this->outmat(xj, yj) = std::numeric_limits<double>::quiet_NaN();
+            } else {
+              this->outmat(xj, yj) = computeOne(xj, xbeg, xend, yj, ybeg, yend);        
+            }
+            if (self)
+              this->outmat(yj, xj) = this->outmat(xj, yj);
+          }
+        }
+      
+      }
   }
 
   virtual void precompute() {};
@@ -93,10 +104,11 @@ struct SparseAggrWorker<CENTROID, DT> : public SparseAggrBaseWorker<DT>
 {
   bool precomputed = false;
   NumericMatrix Xvecs, Yvecs;
+  Norm<L2> l2_norm {};
   
   // bring constructor into this scope
   using SparseAggrBaseWorker<DT>::SparseAggrBaseWorker;
-
+  
   void precompute()
   {
     precomputed = true;
@@ -123,7 +135,13 @@ struct SparseAggrWorker<CENTROID, DT> : public SparseAggrBaseWorker<DT>
     if (precomputed) {
       return this->dist(Xvecs.column(xix).begin(), Xvecs.column(xix).end(), Yvecs.column(yix).begin());
     } else {
-      throw std::runtime_error("precomputed=FALSE is not yet implemented for Centroid Aggregation Distance");
+      vector<double> xvec = pointwise_average(this->vecs, &(this->XIX[xbeg]), &(this->XIX[xend]), &(this->XV[xbeg]));
+      vector<double> yvec = pointwise_average(this->vecs, &(this->YIX[ybeg]), &(this->YIX[yend]), &(this->YV[ybeg]));
+      if (DT == COSINE) {
+        l2_norm(xvec.begin(), xvec.end());
+        l2_norm(yvec.begin(), yvec.end());
+      }
+      return this->dist(xvec.begin(), xvec.end(), yvec.begin());
     }
   }
 };
@@ -173,24 +191,26 @@ struct SparseAggrMinWorker : public SparseAggrBaseWorker<DT> {
 
   virtual double aggr_fun(double xmin, double ymin) = 0;
 
-  void precompute() {
-
+  void precompute()
+  {
     precomputed = true;
-    
-    if (this->self) {
-      this->XIX0 = clone(this->XIX0);
-      this->XIX = RVector<int>(this->XIX0);
-      IntegerVector range = compact_range(this->XIX, this->vecs.ncol());
-      precomputed_dist = denseRangeDist<DT>(range, range, this->vecs0, true);
-    } else {
-      this->XIX0 = clone(this->XIX0);
-      this->XIX = RVector<int>(this->XIX0);
-      this->YIX0 = clone(this->YIX0);
-      this->YIX = RVector<int>(this->YIX0);
-      IntegerVector xrange = compact_range(this->XIX, this->vecs.ncol());
-      IntegerVector yrange = compact_range(this->YIX, this->vecs.ncol());
-      precomputed_dist = denseRangeDist<DT>(xrange, yrange, this->vecs0, false);
-    }
+    if (this->self)
+      {
+        this->XIX0 = clone(this->XIX0);
+        this->XIX = RVector<int>(this->XIX0);
+        IntegerVector range = compact_range(this->XIX, this->vecs.ncol());
+        precomputed_dist = denseRangeDist<DT>(range, range, this->vecs0, true);
+      }
+    else
+      {
+        this->XIX0 = clone(this->XIX0);
+        this->XIX = RVector<int>(this->XIX0);
+        this->YIX0 = clone(this->YIX0);
+        this->YIX = RVector<int>(this->YIX0);
+        IntegerVector xrange = compact_range(this->XIX, this->vecs.ncol());
+        IntegerVector yrange = compact_range(this->YIX, this->vecs.ncol());
+        precomputed_dist = denseRangeDist<DT>(xrange, yrange, this->vecs0, false);
+      }
   }
   
   double computeOne(const size_t xj, const int xbeg, const int xend,
@@ -249,10 +269,14 @@ NumericMatrix sparseAggrDist(NumericMatrix& vecs,
                              IntegerVector& XIX, IntegerVector& XP, NumericVector& XV,
                              IntegerVector& YIX, IntegerVector& YP, NumericVector& YV,
                              const size_t out_rows, const size_t out_cols,
-                             const bool self = false, const bool precompute = true)
+                             const bool pairwise = false, const bool self = false,
+                             const bool precompute = true)
 {
-  NumericMatrix outmat(out_rows, out_cols);
-  SparseAggrWorker<AT, DT> worker(vecs, XIX, XP, XV, YIX, YP, YV, outmat, false);
+  if (pairwise && out_rows != out_cols)
+    throw std::invalid_argument("when pairwise is TRUE primary dimensions of xmat and ymat must be the same");
+  size_t ncols = pairwise ? 1 : out_cols;
+  NumericMatrix outmat(out_rows, ncols);
+  SparseAggrWorker<AT, DT> worker(vecs, XIX, XP, XV, YIX, YP, YV, outmat, pairwise, self);
   if (precompute) worker.precompute();
   parallelFor(0, out_rows, worker);
   return outmat;

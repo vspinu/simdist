@@ -69,28 +69,29 @@ NumericMatrix C_sparse_aggr_dist(const std::string& aggr_type, const std::string
                                  NumericVector& XV, IntegerVector& YIX,
                                  IntegerVector& YP, NumericVector& YV,
                                  const size_t out_rows, const size_t out_cols,
-                                 const bool self = false, const bool precompute = true) {
+                                 const bool pairwise = false, const bool self = false,
+                                 const bool precompute = true) {
   if (aggr_type == "CENTROID") {
     if (dist_type == "COSINE") {
-      return sparseAggrDist<CENTROID, COSINE>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, self, precompute);
+      return sparseAggrDist<CENTROID, COSINE>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, pairwise, self, precompute);
     } else if (dist_type == "EUCLIDEAN") {
-      return sparseAggrDist<CENTROID, EUCLIDEAN>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, self, precompute);
+      return sparseAggrDist<CENTROID, EUCLIDEAN>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, pairwise, self, precompute);
     } else {
       throw std::invalid_argument("Invalid dist_type: " + dist_type);
     }
   } else if (aggr_type == "SEM_MIN_MAX") {
     if (dist_type == "COSINE") {
-      return sparseAggrDist<SEM_MIN_MAX, COSINE>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, self, precompute);
+      return sparseAggrDist<SEM_MIN_MAX, COSINE>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, pairwise, self, precompute);
     } else if (dist_type == "EUCLIDEAN") {
-      return sparseAggrDist<SEM_MIN_MAX, EUCLIDEAN>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, self, precompute);
+      return sparseAggrDist<SEM_MIN_MAX, EUCLIDEAN>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, pairwise, self, precompute);
     } else {
       throw std::invalid_argument("Invalid dist_type: " + dist_type);
     }
   } else if (aggr_type == "SEM_MIN_SUM") {
     if (dist_type == "COSINE") {
-      return sparseAggrDist<SEM_MIN_SUM, COSINE>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, self, precompute);
+      return sparseAggrDist<SEM_MIN_SUM, COSINE>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, pairwise, self, precompute);
     } else if (dist_type == "EUCLIDEAN") {
-      return sparseAggrDist<SEM_MIN_SUM, EUCLIDEAN>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, self, precompute);
+      return sparseAggrDist<SEM_MIN_SUM, EUCLIDEAN>(vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, pairwise, self, precompute);
     } else {
       throw std::invalid_argument("Invalid dist_type: " + dist_type);
     }
@@ -105,11 +106,12 @@ NumericMatrix C_triplet_aggr_dist(const std::string& aggr_type, const std::strin
                                   IntegerVector& xpri, IntegerVector& xsec, NumericVector& xval,
                                   IntegerVector& ypri, IntegerVector& ysec, NumericVector& yval,
                                   const size_t out_rows, const size_t out_cols,
-                                  const bool self = false, const bool precompute = true) {
+                                  const bool pairwise = false, const bool self = false,
+                                  const bool precompute = true) {
   auto X = TripletMat<IntegerVector, NumericVector>(xpri, xsec, xval, out_rows).toSparseMat();
   auto Y = TripletMat<IntegerVector, NumericVector>(ypri, ysec, yval, out_cols).toSparseMat();
   return C_sparse_aggr_dist(aggr_type, dist_type, vecs,
                             X.i, X.p, X.v, Y.i, Y.p, Y.v,
                             out_rows, out_cols,
-                            self, precompute);
+                            pairwise, self, precompute);
 }

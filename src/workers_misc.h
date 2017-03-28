@@ -1,3 +1,5 @@
+// -*- mode: c++ -*-
+
 #ifndef DISTANCE_WORKERS_MISC_HPP__
 #define DISTANCE_WORKERS_MISC_HPP__
 

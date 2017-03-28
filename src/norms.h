@@ -1,3 +1,5 @@
+// -*- mode: c++ -*-
+
 #ifndef DISTANCE_NORMS_HPP__
 #define DISTANCE_NORMS_HPP__
 
@@ -9,11 +11,16 @@ template <NormType NT>
 struct Norm {
   Norm() {}
   virtual ~Norm() {}
-
   template <class ValIt>
   inline void operator()(ValIt xbeg, ValIt xend) const {
     throw std::invalid_argument("Unsupported NormType");
   };  
+};
+
+template <>
+struct Norm<NONORM> {
+  template <class ValIt>
+  inline void operator()(ValIt xbeg, ValIt xend) const {};
 };
 
 template <>

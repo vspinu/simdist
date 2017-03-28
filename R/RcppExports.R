@@ -13,11 +13,11 @@ C_triplet_dist <- function(dist_type, xpri, xsec, xval, ypri, ysec, yval, out_ro
     .Call('simdist_C_triplet_dist', PACKAGE = 'simdist', dist_type, xpri, xsec, xval, ypri, ysec, yval, out_rows, out_cols, pairwise, self, xreorder, yreorder)
 }
 
-C_sparse_aggr_dist <- function(aggr_type, dist_type, vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, self = FALSE, precompute = TRUE) {
-    .Call('simdist_C_sparse_aggr_dist', PACKAGE = 'simdist', aggr_type, dist_type, vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, self, precompute)
+C_sparse_aggr_dist <- function(aggr_type, dist_type, vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, pairwise = FALSE, self = FALSE, precompute = TRUE) {
+    .Call('simdist_C_sparse_aggr_dist', PACKAGE = 'simdist', aggr_type, dist_type, vecs, XIX, XP, XV, YIX, YP, YV, out_rows, out_cols, pairwise, self, precompute)
 }
 
-C_triplet_aggr_dist <- function(aggr_type, dist_type, vecs, xpri, xsec, xval, ypri, ysec, yval, out_rows, out_cols, self = FALSE, precompute = TRUE) {
-    .Call('simdist_C_triplet_aggr_dist', PACKAGE = 'simdist', aggr_type, dist_type, vecs, xpri, xsec, xval, ypri, ysec, yval, out_rows, out_cols, self, precompute)
+C_triplet_aggr_dist <- function(aggr_type, dist_type, vecs, xpri, xsec, xval, ypri, ysec, yval, out_rows, out_cols, pairwise = FALSE, self = FALSE, precompute = TRUE) {
+    .Call('simdist_C_triplet_aggr_dist', PACKAGE = 'simdist', aggr_type, dist_type, vecs, xpri, xsec, xval, ypri, ysec, yval, out_rows, out_cols, pairwise, self, precompute)
 }
 

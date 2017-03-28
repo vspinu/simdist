@@ -109,8 +109,10 @@ dist_euclidean <- function(x, y = NULL, ptrans = NULL, strans = NULL,
 ##' @export
 adist_centroid <- function(x, y = NULL, vecs, ptrans = NULL, strans = NULL,
                            by = c("primary", "secondary", "row", "column"),
-                           precompute = TRUE, dist_type = "cosine") {
-    generic_aggr_dist(x, y, vecs, ptrans, strans, by = by, precompute = precompute,
+                           pairwise = FALSE, precompute = !pairwise,
+                           dist_type = "cosine") {
+    generic_aggr_dist(x, y, vecs, ptrans, strans, by = by,
+                      precompute = precompute, pairwise = pairwise, 
                       aggr_type = "CENTROID", dist_type = dist_type)
 }
 
@@ -118,8 +120,10 @@ adist_centroid <- function(x, y = NULL, vecs, ptrans = NULL, strans = NULL,
 ##' @export
 adist_semantic_min_sum <- function(x, y = NULL, vecs, ptrans = NULL, strans = NULL,
                                    by = c("primary", "secondary", "row", "column"),
-                                   precompute = TRUE, dist_type = "cosine") {
-    generic_aggr_dist(x, y, vecs, ptrans, strans, by = by, precompute = precompute,
+                                   pairwise = FALSE, precompute = !pairwise,
+                                   dist_type = "cosine") {
+    generic_aggr_dist(x, y, vecs, ptrans, strans, by = by,
+                      precompute = precompute, pairwise = pairwise, 
                       aggr_type = "SEM_MIN_SUM", dist_type = dist_type)
 }
 
@@ -127,8 +131,10 @@ adist_semantic_min_sum <- function(x, y = NULL, vecs, ptrans = NULL, strans = NU
 ##' @export
 adist_semantic_min_max <- function(x, y = NULL, vecs, ptrans = NULL, strans = NULL,
                                    by = c("primary", "secondary", "row", "column"),
-                                   precompute = TRUE, dist_type = "cosine") {
-    generic_aggr_dist(x, y, vecs, ptrans, strans, by = by, precompute = precompute,
+                                   pairwise = FALSE, precompute = !pairwise,
+                                   dist_type = "cosine") {
+    generic_aggr_dist(x, y, vecs, ptrans, strans, by = by,
+                      precompute = precompute, pairwise = pairwise, 
                       aggr_type = "SEM_MIN_MAX", dist_type = dist_type)
 }
 

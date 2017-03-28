@@ -85,6 +85,45 @@ test_that("rwmd works as expected with named objects", {
     
 })
 
+test_that("pairwise rwmd works as expected", {
+
+    set.seed(200)
+    cmat1 <- simdist:::random_sparse_mat(123, 10, 25)
+    cmat2 <- cmat1[rev(1:nrow(cmat1)), sample(1:ncol(cmat1))]
+    cmat3 <- cmat1[sample(1:nrow(cmat1)), sample(1:ncol(cmat1))]
+
+    snames <- unique(rownames(cmat1))
+    vecs <- matrix(runif(50*length(snames)), 50, dimnames = list(NULL, snames))
+
+    d11 <- adist_rwmd(cmat1, cmat1, vecs, "l2", dist_type = "cosine")
+    pd11 <- adist_rwmd(cmat1, cmat1, vecs, "l2", pairwise = T, dist_type = "cosine")
+    d21 <- adist_rwmd(cmat2, cmat1, vecs, "l2", dist_type = "cosine")
+    pd21 <- adist_rwmd(cmat2, cmat1, vecs, "l2", pairwise = T, dist_type = "cosine")
+    d22 <- adist_rwmd(cmat2, cmat2, vecs, "l2", dist_type = "cosine")
+    pd22 <- adist_rwmd(cmat2, cmat2, vecs, "l2", pairwise = T, dist_type = "cosine")
+    d23 <- adist_rwmd(cmat2, cmat3, vecs, "l2", dist_type = "cosine")
+    pd23 <- adist_rwmd(cmat2, cmat3, vecs, "l2", pairwise = T, dist_type = "cosine")
+
+    expect_equal(unname(diag(d11)), pd11)
+    expect_equal(unname(diag(d21)), pd21)
+    expect_equal(unname(diag(d22)), pd22)
+    expect_equal(unname(diag(d23)), pd23)
+
+    d11 <- adist_rwmd(cmat1, cmat1, vecs, "l2", dist_type = "euclidean")
+    pd11 <- adist_rwmd(cmat1, cmat1, vecs, "l2", pairwise = T, dist_type = "euclidean")
+    d21 <- adist_rwmd(cmat2, cmat1, vecs, "l1", dist_type = "euclidean")
+    pd21 <- adist_rwmd(cmat2, cmat1, vecs, "l1", pairwise = T, dist_type = "euclidean")
+    d22 <- adist_rwmd(cmat2, cmat2, vecs, "l1", dist_type = "euclidean")
+    pd22 <- adist_rwmd(cmat2, cmat2, vecs, "l1", pairwise = T, dist_type = "euclidean")
+    d23 <- adist_rwmd(cmat2, cmat3, vecs, "l1", dist_type = "euclidean")
+    pd23 <- adist_rwmd(cmat2, cmat3, vecs, "l1", pairwise = T, dist_type = "euclidean")
+
+    expect_equal(unname(diag(d11)), pd11)
+    expect_equal(unname(diag(d21)), pd21)
+    expect_equal(unname(diag(d22)), pd22)
+    expect_equal(unname(diag(d23)), pd23)
+})
+
 test_that("centroid works as expected with named objects", {
 
     set.seed(100)
@@ -110,6 +149,45 @@ test_that("centroid works as expected with named objects", {
     
 })
 
+test_that("pairwise centroid works as expected", {
+
+    set.seed(100)
+    cmat1 <- simdist:::random_sparse_mat(123, 10, 25)
+    cmat2 <- cmat1[rev(1:nrow(cmat1)), sample(1:ncol(cmat1))]
+    cmat3 <- cmat1[sample(1:nrow(cmat1)), sample(1:ncol(cmat1))]
+
+    snames <- unique(rownames(cmat1))
+    vecs <- matrix(runif(50*length(snames)), 50, dimnames = list(NULL, snames))
+
+    d11 <- adist_centroid(cmat1, cmat1, vecs, "l2", dist_type = "cosine")
+    pd11 <- adist_centroid(cmat1, cmat1, vecs, "l2", pairwise = T, dist_type = "cosine")
+    d21 <- adist_centroid(cmat2, cmat1, vecs, "l2", dist_type = "cosine")
+    pd21 <- adist_centroid(cmat2, cmat1, vecs, "l2", pairwise = T, dist_type = "cosine")
+    d22 <- adist_centroid(cmat2, cmat2, vecs, "l2", dist_type = "cosine")
+    pd22 <- adist_centroid(cmat2, cmat2, vecs, "l2", pairwise = T, dist_type = "cosine")
+    d23 <- adist_centroid(cmat2, cmat3, vecs, "l2", dist_type = "cosine")
+    pd23 <- adist_centroid(cmat2, cmat3, vecs, "l2", pairwise = T, dist_type = "cosine")
+
+    expect_equal(unname(diag(d11)), pd11)
+    expect_equal(unname(diag(d21)), pd21)
+    expect_equal(unname(diag(d22)), pd22)
+    expect_equal(unname(diag(d23)), pd23)
+
+    d11 <- adist_centroid(cmat1, cmat1, vecs, "l2", dist_type = "euclidean")
+    pd11 <- adist_centroid(cmat1, cmat1, vecs, "l2", pairwise = T, dist_type = "euclidean")
+    d21 <- adist_centroid(cmat2, cmat1, vecs, "l1", dist_type = "euclidean")
+    pd21 <- adist_centroid(cmat2, cmat1, vecs, "l1", pairwise = T, dist_type = "euclidean")
+    d22 <- adist_centroid(cmat2, cmat2, vecs, "l1", dist_type = "euclidean")
+    pd22 <- adist_centroid(cmat2, cmat2, vecs, "l1", pairwise = T, dist_type = "euclidean")
+    d23 <- adist_centroid(cmat2, cmat3, vecs, "l1", dist_type = "euclidean")
+    pd23 <- adist_centroid(cmat2, cmat3, vecs, "l1", pairwise = T, dist_type = "euclidean")
+
+    expect_equal(unname(diag(d11)), pd11)
+    expect_equal(unname(diag(d21)), pd21)
+    expect_equal(unname(diag(d22)), pd22)
+    expect_equal(unname(diag(d23)), pd23)
+})
+
 test_that("centroid computation is correct", {
     set.seed(100)
     mat <- matrix(1:9, nrow = 3, dimnames = list(1:3, letters[1:3]))
@@ -128,3 +206,5 @@ test_that("centroid computation is correct", {
     expect_equal(cosine, acosine)
     expect_equal(euclid, aeuclid)    
 })
+
+

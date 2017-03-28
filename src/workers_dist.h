@@ -252,10 +252,10 @@ NumericMatrix sparseDist(IntegerVector& XIX, IntegerVector& XP, NumericVector& X
                          IntegerVector& YIX, IntegerVector& YP, NumericVector& YV,
                          const size_t out_rows, const size_t out_cols,
                          const bool pairwise = false, const bool self = false,
-                         const int xreorder = 0, const int yreorder = 0) {
-
+                         const int xreorder = 0, const int yreorder = 0)
+{
   if (pairwise && out_rows != out_cols)
-    throw std::invalid_argument("when pairwise is TRUE primary dimensions of xmat and ymat must be the same");
+    throw std::invalid_argument("When pairwise is TRUE primary dimensions of xmat and ymat must be the same");
 
   size_t ncols = pairwise ? 1 : out_cols;
 
@@ -281,7 +281,8 @@ NumericMatrix tripletDist(IntegerVector& xpri, IntegerVector& xsec, NumericVecto
                           IntegerVector& ypri, IntegerVector& ysec, NumericVector& yval,
                           const size_t out_rows, const size_t out_cols, 
                           const bool pairwise = false, const bool self = false,
-                          int xreorder = 0, int yreorder = 0) {
+                          int xreorder = 0, int yreorder = 0)
+{
   // always pass 1 as we are creating temporaries anyhow
   xreorder = xreorder ? 1 : 0;
   yreorder = yreorder ? 1 : 0;

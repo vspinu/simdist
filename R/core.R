@@ -128,13 +128,13 @@ dist_same_mat_class <- function(x, y, ptrans, strans,
         out <- dist_fun(x, xix, y, yix, xresort, yresort)
     }
     if (pairwise) {
-        out <- setNames(c(out), primary_names(x))
+        c(out)
     } else {
         dns <- list(primary_names(x), primary_names(y))
         if(!is.null(dns[[1]]) || !is.null(dns[[2]]))
             dimnames(out) <- dns
+        out
     }
-    out
 }
 
 dist_df <- function(x, y, ptrans = NULL, strans = NULL,
@@ -181,12 +181,12 @@ dist_df <- function(x, y, ptrans = NULL, strans = NULL,
     ## class(out) <- class(x)
 
     if (pairwise) {
-        out <- setNames(c(out), xnames)
+        c(out_mat)
     } else {
         if(!is.null(xnames) || !is.null(ynames))
             dimnames(out_mat) <- list(xnames, ynames)
+        out_mat
     }
-    out_mat
 }
 
 
@@ -269,13 +269,16 @@ setMethod("generic_dist", signature("data.frame", "data.frame"), {
 setGeneric("generic_aggr_dist", signature = c("x", "y"),
            function(x, y = NULL, vecs, ptrans = NULL, strans = NULL,
                     by = c("primary", "secondary", "row", "column"),
-                    precompute = TRUE, pairwise = FALSE, ..., aggr_type, dist_type) {
+                    precompute = TRUE, pairwise = FALSE, ...,
+                    aggr_type, dist_type) {
                standardGeneric("generic_aggr_dist")
            })
 
 .generic_aggr_mat_dist <- function(x, y = NULL, vecs, ptrans, strans,
                                    by = c("primary", "secondary", "row", "column"),
-                                   precompute = TRUE, pairwise = FALSE, ..., aggr_type, dist_type) {
+                                   precompute = TRUE, pairwise = FALSE, ...,
+                                   aggr_type, dist_type) {
+    self <- FALSE
     aggr_type <- toupper(aggr_type)
     dist_type <- toupper(dist_type)
     fun <- function(x, xix, y, yix, ...) {
@@ -283,12 +286,12 @@ setGeneric("generic_aggr_dist", signature = c("x", "y"),
             C_triplet_aggr_dist(aggr_type, dist_type, vecs,
                                 x@i, xix, x@x, y@i, yix, y@x,
                                 primary_size(x), primary_size(y),
-                                precompute)
+                                pairwise, self, precompute)
         } else if (inherits(x, "dsparseMatrix")) {
             C_sparse_aggr_dist(aggr_type, dist_type, vecs,
                                xix, x@p, x@x, yix, y@p, y@x,
                                primary_size(x), primary_size(y),
-                               precompute)
+                               pairwise, self, precompute)
         } else stop("unsuported matrix type")
     }
     dist_same_mat_class(x, y, ptrans, strans, by, ref_names = primary_names(vecs),
@@ -310,13 +313,16 @@ setMethod("generic_aggr_dist", signature("dgTMatrix", "dgTMatrix"), .generic_agg
 setMethod("generic_aggr_dist", signature("data.frame", "data.frame"), {
     function(x, y, vecs, ptrans = NULL, strans = NULL,
              by = c("primary", "secondary", "row", "column"),
-             precompute = TRUE, pairwise = FALSE, ..., aggr_type, dist_type) {
+             precompute = TRUE, pairwise = FALSE, ...,
+             aggr_type, dist_type) {
+        self <- FALSE
         dist_type <- toupper(dist_type)
         fun <- function(xpix, xsix, xval, ypix, ysix, yval, nrows, ncols) {
             C_triplet_aggr_dist(aggr_type, dist_type, vecs,
                                 xpix, xsix, xval,
                                 ypix, ysix, yval,
-                                nrows, ncols, precompute)
+                                nrows, ncols,
+                                pairwise, self, precompute)
         }
         dist_df(x, y, ptrans, strans, by, ref_names = primary_names(vecs),
                 pairwise = pairwise, dist_fun = fun)
