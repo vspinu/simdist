@@ -27,6 +27,49 @@ test_that("distances work as expected", {
     
 })
 
+test_that("pairwise distances work as expected", {
+
+    cmat1 <- simdist:::random_sparse_mat(1, 100, 200)
+    dmat1 <- as.matrix(cmat1)
+
+    ## same matrices (secondary ix is reordered by name)
+    cmat2 <- cmat1[sample(1:nrow(cmat1)), ]
+    dmat2 <- as.matrix(cmat2)
+    d1 <- c(proxy::dist(dmat1, dmat1, method = "cosine", by_rows = F, pairwise = TRUE))
+    d2 <- dist_cosine(cmat1, cmat2, ptrans = "l2", pairwise = T)
+    d3 <- dist_cosine(dmat1, dmat2, ptrans = "l2", pairwise = T)
+    d4 <- dist_cosine(unname(cmat1),, "l2", pairwise = T)
+    d5 <- dist_cosine(unname(dmat1),, "l2", pairwise = T)
+    expect_equal(d1, unname(d2))
+    expect_equal(d1, unname(d3))
+    expect_equal(d1, d4)
+    expect_equal(d1, unname(d5))
+
+    ## different matrices
+    cmat2 <- cmat1[, sample(1:ncol(cmat1))]
+    dmat2 <- as.matrix(cmat2)
+    d1 <- c(proxy::dist(dmat1, dmat2, method = "cosine", by_rows = F, pairwise = TRUE))
+    d2 <- dist_cosine(cmat1, cmat2, ptrans = "l2", pairwise = T)
+    d3 <- dist_cosine(dmat1, dmat2, ptrans = "l2", pairwise = T)
+    d4 <- dist_cosine(unname(cmat1), unname(cmat2), "l2", pairwise = T)
+    d5 <- dist_cosine(unname(dmat1), unname(dmat2), "l2", pairwise = T)
+    expect_equal(d1, unname(d2))
+    expect_equal(d1, unname(d3))
+    expect_equal(d1, d4)
+    expect_equal(d1, unname(d5))
+
+    d1 <- c(proxy::dist(dmat1, dmat2, method = "euclidean", by_rows = F, pairwise = T))
+    d2 <- dist_euclidean(cmat1, cmat2, pairwise = T)
+    d3 <- dist_euclidean(dmat1, dmat2, pairwise = T)
+    d4 <- dist_euclidean(unname(dmat1), unname(dmat2), pairwise = T)
+    d5 <- dist_euclidean(unname(cmat1), unname(cmat2), pairwise = T)
+    expect_equal(d1, unname(d2))
+    expect_equal(d1, unname(d3))
+    expect_equal(d1, d4)
+    expect_equal(d1, d5)
+
+})
+
 test_that("matrix distances work as expected", {
 
     dmat1 <- simdist:::random_mat(12, 10, 25)
@@ -158,16 +201,16 @@ test_that("TripleDF distances work as expected with named objects", {
     d11 <- dist_cosine(psv1, psv1, "l2")
     d2 <- dist_cosine(psv1, psv2, "l2")
     d3 <- dist_cosine(psv1, psv3, "l2")
-    expect_equal(c(d1), d11$dist)
-    expect_equal(c(d1), d2$dist)
-    expect_equal(c(d1), d3$dist)
+    expect_equal(d1, d11)
+    expect_equal(d1, d2)
+    expect_equal(d1, d3)
 
     d1 <- simdist:::drop_attr(proxy::dist(dmat, dmat, method = "euclidean", by_rows = F))
     d11 <- dist_euclidean(psv1, psv1)
     d2 <- dist_euclidean(psv1, psv2)
     d3 <- dist_euclidean(psv1, psv3)
-    expect_equal(c(d1), d11$dist)
-    expect_equal(c(d1), d2$dist)
-    expect_equal(c(d1), d3$dist)    
+    expect_equal(d1, d11)
+    expect_equal(d1, d2)
+    expect_equal(d1, d3)    
 
 })

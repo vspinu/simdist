@@ -1,3 +1,5 @@
+// -*- mode: c++ -*-
+
 #ifndef SIMDIST_SPARSE_HPP__
 #define SIMDIST_SPARSE_HPP__
 
@@ -17,7 +19,12 @@ struct TripletMat {
   int psize;
 
   TripletMat(const ixT& pix, const ixT& six, const valT& val, const int& psize)
-    : pix(pix), six(six), val(val), psize(psize) {}
+    : pix(pix), six(six), val(val), psize(psize)
+  {
+    if (pix.size() != six.size() || pix.size() != val.size()) {
+      throw std::invalid_argument("pix, six and val must have same size");
+    }
+  }
 
   SparseMat<ixT, valT> toSparseMat() {
 
@@ -28,7 +35,8 @@ struct TripletMat {
     vector<vector<int>> xvv(psize);
     for (int i = 0; i <  pix.size(); i++) {
       int ix = pix[i];
-      if (ix >= psize) throw std::out_of_range("primary indexes are not < psize");
+      if (ix >= psize)
+        throw std::out_of_range("primary indexes are not < psize");
       P[ix + 1]++;
       xvv[ix].push_back(i);
     }
@@ -62,7 +70,7 @@ struct SparseMat {
 };
 
 
-// SORT OF SPARSE MATRIX INDICES WITHING COLUMNS
+// SORT OF SPARSE MATRIX INDICES WITHIN COLUMNS
 
 // adapted from http://stackoverflow.com/a/17074810/453735
 template <class It>

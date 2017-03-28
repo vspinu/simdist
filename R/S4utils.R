@@ -93,29 +93,28 @@ setMethod("primary_size", "matrix", ncol)
 setMethod("primary_size", "CsparseMatrix", ncol)
 setMethod("primary_size", "RsparseMatrix", nrow)
 setMethod("primary_size", "TsparseMatrix", nrow)
-setMethod("primary_size", "data.frame", function(x) length(.unames(x[[1]])))
+setMethod("primary_size", "data.frame", function(x) length(.unames(x[[df_var_name(x, "primary")]])))
 
 setGeneric("secondary_size", useAsDefault= function(x) stop("Unimplimented for class ", class(x)))
 setMethod("secondary_size", "matrix", nrow)
 setMethod("secondary_size", "CsparseMatrix", nrow)
 setMethod("secondary_size", "RsparseMatrix", ncol)
 setMethod("secondary_size", "TsparseMatrix", ncol)
-setMethod("secondary_size", "data.frame", function(x) length(.unames(x[[2]])))
-
+setMethod("secondary_size", "data.frame", function(x) length(.unames(x[[df_var_name(x, "secondary")]])))
 
 setGeneric("primary_names", useAsDefault= function(x, ...) stop("Unimplimented for class ", class(x)))
 setMethod("primary_names", "matrix", colnames)
 setMethod("primary_names", "CsparseMatrix", colnames)
 setMethod("primary_names", "RsparseMatrix", rownames)
 setMethod("primary_names", "TsparseMatrix", rownames)
-setMethod("primary_names", "data.frame", function(x) .unames(x[[1]]))
+setMethod("primary_names", "data.frame", function(x) .unames(x[[df_var_name(x, "primary")]]))
 
 setGeneric("secondary_names", useAsDefault= function(x, ...) stop("Unimplimented for class ", class(x)))
 setMethod("secondary_names", "matrix", rownames)
 setMethod("secondary_names", "CsparseMatrix", rownames)
 setMethod("secondary_names", "RsparseMatrix", colnames)
 setMethod("secondary_names", "TsparseMatrix", colnames)
-setMethod("secondary_names", "data.frame", function(x) .unames(x[[2]]))
+setMethod("secondary_names", "data.frame", function(x) .unames(x[[df_var_name(x, "secondary")]]))
 
 
 df_var_name <- function(x, type = c("primary", "secondary", "value")) {

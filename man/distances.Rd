@@ -7,10 +7,11 @@
 \title{Distances for sparse 2d representations}
 \usage{
 dist_cosine(x, y = NULL, ptrans = "l2", strans = NULL, by = c("primary",
-  "secondary", "row", "column"), ref_names = NULL)
+  "secondary", "row", "column"), ref_names = NULL, pairwise = FALSE)
 
 dist_euclidean(x, y = NULL, ptrans = NULL, strans = NULL,
-  by = c("primary", "secondary", "row", "column"), ref_names = NULL)
+  by = c("primary", "secondary", "row", "column"), ref_names = NULL,
+  pairwise = FALSE)
 }
 \arguments{
 \item{x, y}{sparse or dense objects supported by \code{simdist}. See

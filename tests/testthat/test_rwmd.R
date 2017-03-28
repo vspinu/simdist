@@ -47,7 +47,7 @@ test_that("rwmd is computed correctly on psv", {
     ## d0 <- rwmd$dist2(t(tdm), t(tdm[, 1:10]))
     ## saveRDS(d0, "../../inst/data/text2vec_rwmd100.rds")
     d0 <- readRDS(system.file("test-data/text2vec_rwmd100.rds", package = "simdist"))
-    d0 <- mat2psv(d0)
+    ## d0 <- mat2psv(d0)
 
     df <- mat2psv(tdm)
     df100 <- mat2psv(tdm[, 1:10])
@@ -55,8 +55,8 @@ test_that("rwmd is computed correctly on psv", {
     d2 <- adist_rwmd(df, df100, wv2, "l1", precompute = FALSE)
     
     expect_equal(d1, d2)
-    expect_equal(d0$val, d1$dist)
-    expect_equal(d0$val, d2$dist)
+    expect_equal(d0, unname(d1))
+    expect_equal(d0, unname(d2))
 })
 
 

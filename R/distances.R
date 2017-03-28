@@ -26,16 +26,16 @@ NULL
 ##' @export
 dist_cosine <- function(x, y = NULL, ptrans = "l2", strans = NULL,
                         by = c("primary", "secondary", "row", "column"),
-                        ref_names = NULL) {
-    generic_dist(x, y, ptrans, strans, by, ref_names, dist_type = "COSINE")
+                        ref_names = NULL, pairwise = FALSE) {
+    generic_dist(x, y, ptrans, strans, by, ref_names, pairwise, dist_type = "COSINE")
 }
 
 ##' @rdname distances
 ##' @export
 dist_euclidean <- function(x, y = NULL, ptrans = NULL, strans = NULL,
                            by = c("primary", "secondary", "row", "column"),
-                           ref_names = NULL) {
-    generic_dist(x, y, ptrans, strans, by, ref_names, dist_type = "EUCLIDEAN")
+                           ref_names = NULL, pairwise = FALSE) {
+    generic_dist(x, y, ptrans, strans, by, ref_names, pairwise, dist_type = "EUCLIDEAN")
 }
 
 
