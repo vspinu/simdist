@@ -127,12 +127,15 @@ dist_same_mat_class <- function(x, y, ptrans, strans,
         yix <- fastmatch::fmatch(secondary_names(y), ref_names)[secondary_ix(y) + 1L] - 1L
         out <- dist_fun(x, xix, y, yix, xresort, yresort)
     }
+    xnames <- primary_names(x)
+    ynames <- primary_names(y)
     if (pairwise) {
-        c(out)
+        data.frame(x = if(is.null(xnames)) 1:primary_size(x) else xnames,
+                   y = if(is.null(ynames)) 1:primary_size(y) else ynames,
+                   val = c(out_mat))
     } else {
-        dns <- list(primary_names(x), primary_names(y))
-        if(!is.null(dns[[1]]) || !is.null(dns[[2]]))
-            dimnames(out) <- dns
+        if(!is.null(xnames) || !is.null(ynames))
+            dimnames(out) <- list(xnames, ynames)
         out
     }
 }
@@ -181,10 +184,12 @@ dist_df <- function(x, y, ptrans = NULL, strans = NULL,
     ## class(out) <- class(x)
 
     if (pairwise) {
-        c(out_mat)
+        structure(list(x = xnames,
+                       y = ynames,
+                       val = c(out_mat)),
+                  class = class(x))
     } else {
-        if(!is.null(xnames) || !is.null(ynames))
-            dimnames(out_mat) <- list(xnames, ynames)
+        dimnames(out_mat) <- list(xnames, ynames)
         out_mat
     }
 }
