@@ -2,7 +2,7 @@ Package: simdist
 Title: High performance distance and similarity functions
 Version: 0.0.1
 Authors@R: person("Vitalie", "Spinu", email = "spinuvit@gmail.com", role = c("aut", "cre"))
-Description: Relaxed word mover distance.
+Description: Fast implementations of various distances with primary focus on sparse representations.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
@@ -19,9 +19,10 @@ Suggests:
     testthat,
     proxy,
     rmarkdown
-LinkingTo: Rcpp,
-    RcppParallel,
-RoxygenNote: 5.0.1
+LinkingTo:
+    Rcpp,
+    RcppParallel
+RoxygenNote: 6.0.1
 Collate:
     'RcppExports.R'
     'S4utils.R'

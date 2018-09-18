@@ -52,4 +52,3 @@ similarities are computed from their distance counterparts through
 \code{s=1-d} or \code{s=1/(1+d)}, but this need not always be the case. See
 the source code for the exact computation.
 }
-

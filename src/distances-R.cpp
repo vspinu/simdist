@@ -18,18 +18,18 @@ NumericMatrix C_dense_dist(std::string dist_type,
     throw std::invalid_argument("Invalid dist_type: " + dist_type);
 }
 
-/* // [[Rcpp::export]] */
-/* NumericMatrix C_dense_range_dist(std::string dist_type, */
-/*                                  const IntegerVector& xrange, const NumericMatrix& XV, */
-/*                                  const IntegerVector& yrange, const NumericMatrix& YV, */
-/*                                  bool self = false) { */
-/*   if (dist_type == "COSINE") */
-/*     return denseRangeDist<COSINE>(xrange, XV, yrange, YV, self); */
-/*   else if (dist_type == "EUCLIDEAN") */
-/*     return denseRangeDist<EUCLIDEAN>(xrange, XV, yrange, YV, self); */
-/*   else */
-/*     throw std::invalid_argument("Invalid dist_type: " + dist_type); */
-/* } */
+// [[Rcpp::export]]
+NumericMatrix C_dense_range_dist(std::string dist_type,
+                                 const IntegerVector& xrange, const NumericMatrix& XV,
+                                 const IntegerVector& yrange, const NumericMatrix& YV,
+                                 bool self = false) {
+  if (dist_type == "COSINE")
+    return denseRangeDist<COSINE>(xrange, XV, yrange, YV, self);
+  else if (dist_type == "EUCLIDEAN")
+    return denseRangeDist<EUCLIDEAN>(xrange, XV, yrange, YV, self);
+  else
+    throw std::invalid_argument("Invalid dist_type: " + dist_type);
+}
 
 // [[Rcpp::export]]
 NumericMatrix C_sparse_dist(std::string dist_type,

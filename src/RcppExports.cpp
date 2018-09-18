@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // C_dense_dist
 NumericMatrix C_dense_dist(std::string dist_type, const IntegerVector& XIX, const NumericMatrix& xmat, const IntegerVector& YIX, const NumericMatrix& ymat, bool pairwise, bool self);
-RcppExport SEXP simdist_C_dense_dist(SEXP dist_typeSEXP, SEXP XIXSEXP, SEXP xmatSEXP, SEXP YIXSEXP, SEXP ymatSEXP, SEXP pairwiseSEXP, SEXP selfSEXP) {
+RcppExport SEXP _simdist_C_dense_dist(SEXP dist_typeSEXP, SEXP XIXSEXP, SEXP xmatSEXP, SEXP YIXSEXP, SEXP ymatSEXP, SEXP pairwiseSEXP, SEXP selfSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -22,9 +22,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// C_dense_range_dist
+NumericMatrix C_dense_range_dist(std::string dist_type, const IntegerVector& xrange, const NumericMatrix& XV, const IntegerVector& yrange, const NumericMatrix& YV, bool self);
+RcppExport SEXP _simdist_C_dense_range_dist(SEXP dist_typeSEXP, SEXP xrangeSEXP, SEXP XVSEXP, SEXP yrangeSEXP, SEXP YVSEXP, SEXP selfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type dist_type(dist_typeSEXP);
+    Rcpp::traits::input_parameter< const IntegerVector& >::type xrange(xrangeSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type XV(XVSEXP);
+    Rcpp::traits::input_parameter< const IntegerVector& >::type yrange(yrangeSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type YV(YVSEXP);
+    Rcpp::traits::input_parameter< bool >::type self(selfSEXP);
+    rcpp_result_gen = Rcpp::wrap(C_dense_range_dist(dist_type, xrange, XV, yrange, YV, self));
+    return rcpp_result_gen;
+END_RCPP
+}
 // C_sparse_dist
 NumericMatrix C_sparse_dist(std::string dist_type, IntegerVector& XIX, IntegerVector& XP, NumericVector& XV, IntegerVector& YIX, IntegerVector& YP, NumericVector& YV, const size_t out_rows, const size_t out_cols, const bool pairwise, const bool self, const int xreorder, const int yreorder);
-RcppExport SEXP simdist_C_sparse_dist(SEXP dist_typeSEXP, SEXP XIXSEXP, SEXP XPSEXP, SEXP XVSEXP, SEXP YIXSEXP, SEXP YPSEXP, SEXP YVSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP pairwiseSEXP, SEXP selfSEXP, SEXP xreorderSEXP, SEXP yreorderSEXP) {
+RcppExport SEXP _simdist_C_sparse_dist(SEXP dist_typeSEXP, SEXP XIXSEXP, SEXP XPSEXP, SEXP XVSEXP, SEXP YIXSEXP, SEXP YPSEXP, SEXP YVSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP pairwiseSEXP, SEXP selfSEXP, SEXP xreorderSEXP, SEXP yreorderSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -47,7 +63,7 @@ END_RCPP
 }
 // C_triplet_dist
 NumericMatrix C_triplet_dist(std::string dist_type, IntegerVector& xpri, IntegerVector& xsec, NumericVector& xval, IntegerVector& ypri, IntegerVector& ysec, NumericVector& yval, const size_t out_rows, const size_t out_cols, const bool pairwise, const bool self, const int xreorder, const int yreorder);
-RcppExport SEXP simdist_C_triplet_dist(SEXP dist_typeSEXP, SEXP xpriSEXP, SEXP xsecSEXP, SEXP xvalSEXP, SEXP ypriSEXP, SEXP ysecSEXP, SEXP yvalSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP pairwiseSEXP, SEXP selfSEXP, SEXP xreorderSEXP, SEXP yreorderSEXP) {
+RcppExport SEXP _simdist_C_triplet_dist(SEXP dist_typeSEXP, SEXP xpriSEXP, SEXP xsecSEXP, SEXP xvalSEXP, SEXP ypriSEXP, SEXP ysecSEXP, SEXP yvalSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP pairwiseSEXP, SEXP selfSEXP, SEXP xreorderSEXP, SEXP yreorderSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -70,7 +86,7 @@ END_RCPP
 }
 // C_sparse_aggr_dist
 NumericMatrix C_sparse_aggr_dist(const std::string& aggr_type, const std::string& dist_type, NumericMatrix& vecs, IntegerVector& XIX, IntegerVector& XP, NumericVector& XV, IntegerVector& YIX, IntegerVector& YP, NumericVector& YV, const size_t out_rows, const size_t out_cols, const bool pairwise, const bool self, const bool precompute);
-RcppExport SEXP simdist_C_sparse_aggr_dist(SEXP aggr_typeSEXP, SEXP dist_typeSEXP, SEXP vecsSEXP, SEXP XIXSEXP, SEXP XPSEXP, SEXP XVSEXP, SEXP YIXSEXP, SEXP YPSEXP, SEXP YVSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP pairwiseSEXP, SEXP selfSEXP, SEXP precomputeSEXP) {
+RcppExport SEXP _simdist_C_sparse_aggr_dist(SEXP aggr_typeSEXP, SEXP dist_typeSEXP, SEXP vecsSEXP, SEXP XIXSEXP, SEXP XPSEXP, SEXP XVSEXP, SEXP YIXSEXP, SEXP YPSEXP, SEXP YVSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP pairwiseSEXP, SEXP selfSEXP, SEXP precomputeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -94,7 +110,7 @@ END_RCPP
 }
 // C_triplet_aggr_dist
 NumericMatrix C_triplet_aggr_dist(const std::string& aggr_type, const std::string& dist_type, NumericMatrix& vecs, IntegerVector& xpri, IntegerVector& xsec, NumericVector& xval, IntegerVector& ypri, IntegerVector& ysec, NumericVector& yval, const size_t out_rows, const size_t out_cols, const bool pairwise, const bool self, const bool precompute);
-RcppExport SEXP simdist_C_triplet_aggr_dist(SEXP aggr_typeSEXP, SEXP dist_typeSEXP, SEXP vecsSEXP, SEXP xpriSEXP, SEXP xsecSEXP, SEXP xvalSEXP, SEXP ypriSEXP, SEXP ysecSEXP, SEXP yvalSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP pairwiseSEXP, SEXP selfSEXP, SEXP precomputeSEXP) {
+RcppExport SEXP _simdist_C_triplet_aggr_dist(SEXP aggr_typeSEXP, SEXP dist_typeSEXP, SEXP vecsSEXP, SEXP xpriSEXP, SEXP xsecSEXP, SEXP xvalSEXP, SEXP ypriSEXP, SEXP ysecSEXP, SEXP yvalSEXP, SEXP out_rowsSEXP, SEXP out_colsSEXP, SEXP pairwiseSEXP, SEXP selfSEXP, SEXP precomputeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -115,4 +131,19 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(C_triplet_aggr_dist(aggr_type, dist_type, vecs, xpri, xsec, xval, ypri, ysec, yval, out_rows, out_cols, pairwise, self, precompute));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_simdist_C_dense_dist", (DL_FUNC) &_simdist_C_dense_dist, 7},
+    {"_simdist_C_dense_range_dist", (DL_FUNC) &_simdist_C_dense_range_dist, 6},
+    {"_simdist_C_sparse_dist", (DL_FUNC) &_simdist_C_sparse_dist, 13},
+    {"_simdist_C_triplet_dist", (DL_FUNC) &_simdist_C_triplet_dist, 13},
+    {"_simdist_C_sparse_aggr_dist", (DL_FUNC) &_simdist_C_sparse_aggr_dist, 14},
+    {"_simdist_C_triplet_aggr_dist", (DL_FUNC) &_simdist_C_triplet_aggr_dist, 14},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_simdist(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

@@ -2,27 +2,27 @@
 % Please edit documentation in R/distances.R
 \name{adist_centroid}
 \alias{adist_centroid}
-\alias{adist_rwmd}
-\alias{adist_semantic_min_max}
-\alias{adist_semantic_min_sum}
 \alias{aggr_similarities}
+\alias{adist_semantic_min_sum}
+\alias{adist_semantic_min_max}
+\alias{adist_rwmd}
 \title{Aggregation distances for sparse 3d representations}
 \usage{
 adist_centroid(x, y = NULL, vecs, ptrans = NULL, strans = NULL,
-  by = c("primary", "secondary", "row", "column"), precompute = TRUE,
-  dist_type = "cosine")
+  by = c("primary", "secondary", "row", "column"), pairwise = FALSE,
+  precompute = !pairwise, dist_type = "cosine")
 
 adist_semantic_min_sum(x, y = NULL, vecs, ptrans = NULL, strans = NULL,
-  by = c("primary", "secondary", "row", "column"), precompute = TRUE,
-  dist_type = "cosine")
+  by = c("primary", "secondary", "row", "column"), pairwise = FALSE,
+  precompute = !pairwise, dist_type = "cosine")
 
 adist_semantic_min_max(x, y = NULL, vecs, ptrans = NULL, strans = NULL,
-  by = c("primary", "secondary", "row", "column"), precompute = TRUE,
-  dist_type = "cosine")
+  by = c("primary", "secondary", "row", "column"), pairwise = FALSE,
+  precompute = !pairwise, dist_type = "cosine")
 
 adist_rwmd(x, y = NULL, vecs, ptrans = NULL, strans = NULL,
-  by = c("primary", "secondary", "row", "column"), precompute = TRUE,
-  dist_type = "cosine")
+  by = c("primary", "secondary", "row", "column"), pairwise = FALSE,
+  precompute = !pairwise, dist_type = "cosine")
 }
 \arguments{
 \item{x}{sparse or dense objects supported by \code{simdist}. See
@@ -122,4 +122,3 @@ Note that in [1] the authors weight each term by normalized IDF
     Conference on Software Engineering, 404–415. ICSE ’16. New York, NY,
     USA: ACM, 2016. doi:10.1145/2884781.2884862.
 }
-

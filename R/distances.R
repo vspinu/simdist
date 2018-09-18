@@ -138,6 +138,22 @@ adist_semantic_min_max <- function(x, y = NULL, vecs, ptrans = NULL, strans = NU
                       aggr_type = "SEM_MIN_MAX", dist_type = dist_type)
 }
 
+## ##' @rdname aggregated_distances
+## ##' @export
+## adist_dtw <- function(x, y = NULL, vecs, ptrans = NULL, strans = NULL,
+##                       by = c("primary", "secondary", "row", "column"),
+##                       pairwise = FALSE, precompute = !pairwise,
+##                       dist_type = "cosine") {
+    
+##     generic_aggr_dist(x, y, vecs, ptrans, strans, by = by,
+##                       precompute = precompute, pairwise = pairwise, 
+##                       aggr_type = "SEM_MIN_MAX", dist_type = dist_type)
+## }
+
+## tt <- matrix(runif(100), 5, 10)
+## plot(dtw(tt, distance.only = F))
+## plot(symmetric2)
+
 ##' @rdname aggregated_distances
 ##' @export
 adist_rwmd <- adist_semantic_min_max

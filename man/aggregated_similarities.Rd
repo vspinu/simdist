@@ -2,9 +2,9 @@
 % Please edit documentation in R/similarities.R
 \name{asim_centroid}
 \alias{asim_centroid}
-\alias{asim_rwmd}
-\alias{asim_semantic_min_max}
 \alias{asim_semantic_min_sum}
+\alias{asim_semantic_min_max}
+\alias{asim_rwmd}
 \title{Aggregation similarities for sparse 3d representations}
 \usage{
 asim_centroid(x, y = NULL, vecs, ptrans = NULL, strans = NULL,
@@ -69,4 +69,3 @@ see. Generally similarities are computed from their distance counterparts
 through \code{s=1-d} or \code{s=1/(1+d)}, but this need not always be the
 case. See the source code for the exact computation.
 }
-

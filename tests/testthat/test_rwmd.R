@@ -206,5 +206,3 @@ test_that("centroid computation is correct", {
     expect_equal(cosine, acosine)
     expect_equal(euclid, aeuclid)    
 })
-
-

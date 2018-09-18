@@ -2,8 +2,8 @@
 % Please edit documentation in R/utils.R
 \name{mat2psv}
 \alias{mat2psv}
-\alias{psv}
 \alias{psv2mat}
+\alias{psv}
 \title{Various utilities}
 \usage{
 mat2psv(mat)
@@ -27,4 +27,3 @@ psv(df, pname = NULL, sname = NULL, vname = NULL)
 \code{psv}: mark a data frame with attributes in order to track which are
 primary, seocndary and value columns.
 }
-

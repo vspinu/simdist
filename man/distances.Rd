@@ -2,8 +2,8 @@
 % Please edit documentation in R/distances.R
 \name{dist_cosine}
 \alias{dist_cosine}
-\alias{dist_euclidean}
 \alias{distances}
+\alias{dist_euclidean}
 \title{Distances for sparse 2d representations}
 \usage{
 dist_cosine(x, y = NULL, ptrans = "l2", strans = NULL, by = c("primary",
@@ -38,4 +38,3 @@ as efficient than along the secondary dimension.}
 \description{
 Distances for sparse 2d representations
 }
-

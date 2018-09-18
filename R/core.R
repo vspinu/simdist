@@ -132,7 +132,8 @@ dist_same_mat_class <- function(x, y, ptrans, strans,
     if (pairwise) {
         data.frame(x = if(is.null(xnames)) 1:primary_size(x) else xnames,
                    y = if(is.null(ynames)) 1:primary_size(y) else ynames,
-                   val = c(out_mat))
+                   val = c(out),
+                   stringsAsFactors = F)
     } else {
         if(!is.null(xnames) || !is.null(ynames))
             dimnames(out) <- list(xnames, ynames)
@@ -322,6 +323,7 @@ setMethod("generic_aggr_dist", signature("data.frame", "data.frame"), {
              aggr_type, dist_type) {
         self <- FALSE
         dist_type <- toupper(dist_type)
+        aggr_type <- toupper(aggr_type)
         fun <- function(xpix, xsix, xval, ypix, ysix, yval, nrows, ncols) {
             C_triplet_aggr_dist(aggr_type, dist_type, vecs,
                                 xpix, xsix, xval,

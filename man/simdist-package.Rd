@@ -2,8 +2,8 @@
 % Please edit documentation in R/core.R
 \docType{package}
 \name{simdist-package}
-\alias{simdist}
 \alias{simdist-package}
+\alias{simdist}
 \title{High performance computation of similarities and distances for sparse and
 dense objects.}
 \description{
